@@ -1,0 +1,493 @@
+{
+  "name": "Zoom Docs : Begin Review",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "={{ $('Set  Fields').item.json.Reviewer }}",
+        "subject": "=Request to Review: Document is waiting for your Review | Zoom - {{ $('Set  Fields').item.json.Topic }}",
+        "emailType": "text",
+        "message": "=Hello,\n\nKindly review the newly created document : \n\nTopic : {{ $('Set  Fields').item.json.Topic }}\n\nLink to the Document : {{ $('Set  Fields').item.json.DocumentLink }}\n\nThe master tracker to update review status (Col F) :\nhttps://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit?gid=0#gid=0  \n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        608,
+        224
+      ],
+      "id": "c4906bb4-4bdb-4689-a7e2-8e05da89a1b7",
+      "name": "Send a message to Reviewer",
+      "webhookId": "76549a2b-f61f-4e02-97c1-723aff757581",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "OXdMtxnaD1OEsmn6",
+          "name": "Gmail account Sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8d5cdf44-a045-4d00-b0a1-645dbaa9f573",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Drafted",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        240
+      ],
+      "id": "25c3cabc-f9cf-441c-ad64-5f9176b0798f",
+      "name": "If :Check if Status is \"Drafted\""
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec",
+          "mode": "list",
+          "cachedResultName": "Zoom Dcoument Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "topic_list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Topic": "={{ $('If :Check if Status is \"Drafted\"').item.json.Topic }}",
+            "Status": "In Review"
+          },
+          "matchingColumns": [
+            "Topic"
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Audience",
+              "displayName": "Audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Drafted On",
+              "displayName": "Drafted On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "DocumentLink",
+              "displayName": "DocumentLink",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reviewer",
+              "displayName": "Reviewer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reviewed On",
+              "displayName": "Reviewed On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Comments",
+              "displayName": "Review Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approver",
+              "displayName": "Approver",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approved On",
+              "displayName": "Approved On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Published On",
+              "displayName": "Published On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        224
+      ],
+      "id": "ca666303-bdde-47d2-83c3-2e6e5d04309a",
+      "name": "Update \"Status\" row in sheet : Mark In review",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rUW8tX6OGoA7w6oi",
+          "name": "sk_google"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Set  Fields').item.json.DocumentLink }}",
+          "mode": "url"
+        },
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1SlsdGgKPI7RWNL3wOyrCRWx8WHoOm9d1",
+          "mode": "list",
+          "cachedResultName": "Under_Review",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1SlsdGgKPI7RWNL3wOyrCRWx8WHoOm9d1"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        224
+      ],
+      "id": "4a21354c-8880-45eb-9437-24436e2b1e16",
+      "name": "Move file to \"Under Review\" Folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wirzNFn5NVwZT8jk",
+          "name": "Google DriveSearch File-sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 15,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec",
+          "mode": "list",
+          "cachedResultName": "Zoom Dcoument Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "topic_list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit#gid=0"
+        },
+        "options": {
+          "columnsToWatch": [
+            "Status"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        240
+      ],
+      "id": "cf07140e-258b-4c09-abd2-ef1dbc4544d1",
+      "name": "Google Sheets Trigger to check Drafted Topics",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "g5aexdweWKjQGmDe",
+          "name": "Google Sheets Trigger-Sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2bac2ef2-badf-4b26-bc0f-05202155b72a",
+              "name": "Topic",
+              "value": "={{ $json.Topic }}",
+              "type": "string"
+            },
+            {
+              "id": "5ea48494-9ea7-476d-ad04-d39ed649503f",
+              "name": "Audience",
+              "value": "={{ $json.Audience }}",
+              "type": "string"
+            },
+            {
+              "id": "8d81bcc5-8341-4fc0-9503-0fa9f40678dd",
+              "name": "Status",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "e7b3a8f7-4a49-49c9-9d77-c1a1ee6c6fe8",
+              "name": "Drafted On",
+              "value": "={{ $json['Drafted On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9f184e05-9851-44b7-a48a-dc512c77a211",
+              "name": "DocumentLink",
+              "value": "={{ $json.DocumentLink }}",
+              "type": "string"
+            },
+            {
+              "id": "c8aa8ca4-3209-4a35-b6a4-e7d524e14e84",
+              "name": "Review Status",
+              "value": "={{ $json['Review Status'] }}",
+              "type": "string"
+            },
+            {
+              "id": "493b61be-2946-4202-8774-fe69c491379f",
+              "name": "Reviewer",
+              "value": "={{ $json.Reviewer }}",
+              "type": "string"
+            },
+            {
+              "id": "c577d061-b338-4d01-8f5f-eb6b28840039",
+              "name": "Reviewed On",
+              "value": "={{ $json['Reviewed On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "952ca3f1-4f0e-41f5-8318-34b7e538ae48",
+              "name": "Review Comments",
+              "value": "={{ $json['Review Comments'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1811fc3b-0da0-4c54-86d4-6c862d749b49",
+              "name": "Approval Status",
+              "value": "={{ $json['Approval Status'] }}",
+              "type": "string"
+            },
+            {
+              "id": "89919dd0-1bd0-4dfb-8eb5-4d1fd19da81a",
+              "name": "Approver",
+              "value": "={{ $json.Approver }}",
+              "type": "string"
+            },
+            {
+              "id": "623cf854-1a7c-42a6-92a7-9c2a20389447",
+              "name": "Approved On",
+              "value": "={{ $json['Approved On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "288b53d2-ce5e-4708-b108-6076f1aff8ad",
+              "name": "Approver's Comments",
+              "value": "={{ $json['Approver\\'s Comments'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8a1da4d2-06b8-406a-8fd7-6b02dcd8faf8",
+              "name": "Published On",
+              "value": "={{ $json['Published On'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        240
+      ],
+      "id": "1c380f4b-ed41-4718-8a4a-ae6c31dd855c",
+      "name": "Set  Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Send a message to Reviewer": {
+      "main": [
+        [
+          {
+            "node": "Update \"Status\" row in sheet : Mark In review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If :Check if Status is \"Drafted\"": {
+      "main": [
+        [
+          {
+            "node": "Send a message to Reviewer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update \"Status\" row in sheet : Mark In review": {
+      "main": [
+        [
+          {
+            "node": "Move file to \"Under Review\" Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger to check Drafted Topics": {
+      "main": [
+        [
+          {
+            "node": "Set  Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set  Fields": {
+      "main": [
+        [
+          {
+            "node": "If :Check if Status is \"Drafted\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ac372b55-18be-43e7-a9b2-732a71689220",
+  "meta": {
+    "instanceId": "7428d0f703e00cc92dbda4395c676cdedf231821658496bbd0642f032636347a"
+  },
+  "id": "gh71EJu6cVcEJWJ3",
+  "tags": []
+}

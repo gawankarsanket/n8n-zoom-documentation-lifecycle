@@ -1,0 +1,514 @@
+{
+  "name": "Zoom Docs : Content Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 15,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec",
+          "mode": "list",
+          "cachedResultName": "Zoom Dcoument Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "topic_list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit#gid=0"
+        },
+        "options": {
+          "columnsToWatch": [
+            "Status"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        -688
+      ],
+      "id": "20067539-537e-49fb-98d4-42b002c5cbf6",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "g5aexdweWKjQGmDe",
+          "name": "Google Sheets Trigger-Sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1440,
+        -432
+      ],
+      "id": "e5301b11-a390-439b-9269-b5172ae00294",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "eao4rUOrZgx8EBUU",
+          "name": "OpenAi CMJ for Sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "25dbd36a-3f87-4a16-ae03-5b0a1127d1f6",
+              "name": "Topic",
+              "value": "={{ $json.Topic }}",
+              "type": "string"
+            },
+            {
+              "id": "fb244090-627b-4463-a454-71a6176d75e3",
+              "name": "Audience",
+              "value": "={{ $json.Audience }}",
+              "type": "string"
+            },
+            {
+              "id": "41188cba-7cdb-4eb8-b416-424b302bf67c",
+              "name": "Status",
+              "value": "={{ $json.Status }}",
+              "type": "string"
+            },
+            {
+              "id": "ad250a3f-2f8c-4e94-af37-344af2df2549",
+              "name": "Drafted On",
+              "value": "={{ $json['Drafted On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a1c51f30-ab7c-4e2e-bcbe-8fbb5e984e2f",
+              "name": "DocumentLink",
+              "value": "={{ $json.DocumentLink }}",
+              "type": "string"
+            },
+            {
+              "id": "d852ae4a-c413-4eef-84ae-c4db7dd57d0d",
+              "name": "Review Status",
+              "value": "={{ $json['Review Status'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c9609938-1124-439f-b589-14008bc4efba",
+              "name": "Reviewer",
+              "value": "={{ $json.Reviewer }}",
+              "type": "string"
+            },
+            {
+              "id": "b4f42964-3948-43a0-97f3-6d97ff3e897e",
+              "name": "Reviewed On",
+              "value": "={{ $json['Reviewed On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "38e050ff-5f88-463b-b3e5-bc9d1b338a60",
+              "name": "Review Comments",
+              "value": "={{ $('Google Sheets Trigger').item.json['Review Comments'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bfb4dc2e-9488-4abd-b186-d3c6a8319353",
+              "name": "Approval Status",
+              "value": "={{ $('Google Sheets Trigger').item.json['Approval Status'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0a7700de-e36d-466b-a16a-4d222289d935",
+              "name": "Approver",
+              "value": "={{ $('Google Sheets Trigger').item.json.Approver }}",
+              "type": "string"
+            },
+            {
+              "id": "56aa4dd1-3ba0-4500-ac0a-6e1faa01848f",
+              "name": "Approved On",
+              "value": "={{ $('Google Sheets Trigger').item.json['Approved On'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a06ccdb3-41fa-40ed-b2f7-49006bb446a0",
+              "name": "Published On",
+              "value": "={{ $('Google Sheets Trigger').item.json['Published On'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1648,
+        -800
+      ],
+      "id": "e02db5df-8573-45fd-8735-77ba42ca83a8",
+      "name": "Set Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b27cea1f-04f0-40e2-b46c-50d74026ae15",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "New",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1808,
+        -688
+      ],
+      "id": "c1eeeecb-d6d2-42ae-b2e9-79a76eb7362f",
+      "name": "If : Check if Topic Status is \"New\""
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a beginner-friendly Zoom user guide for the feature: \"{{ $json.Topic }}\".\nTarget audience: \"{{ $json.Audience }}\".\n\nIMPORTANT FORMATTING RULES:\n- Do NOT use Markdown (#, ##, -, *).\n- Write section titles in UPPER CASE.\n- Leave one blank line between sections.\n- Use bullet points with \"•\" symbol.\n- Number steps as 1, 2, 3.\n- Keep sentences short and simple.\n\nSTRUCTURE (MUST FOLLOW EXACTLY):\n\nTITLE: Zoom – {{ $json.Topic }}\n\nWHAT IS THIS FEATURE?\n(Short paragraph)\n\nWHY IS IT USED?\n(Short paragraph)\n\nPREREQUISITES\n• Point 1\n• Point 2\n• Point 3\n\nHOW TO ENABLE AND USE\n1. Step one\n2. Step two\n3. Step three\n\nIMPORTANT NOTES / LIMITATIONS\n• Point 1\n• Point 2\n\nOFFICIAL ZOOM REFERENCES\n• Reference title – URL\n\nCONTENT RULES:\n- Use only Zoom official documentation.\n- If information is unclear, say \"Depends on account settings\".\n- Do not invent features.\n",
+        "options": {
+          "systemMessage": "You are a professional technical documentation writer.\n\nWrite content that will be pasted directly into Google Docs.\nDo NOT use Markdown syntax (#, ##, -, *).\nUse clear headings written in UPPER CASE.\nAssume Google Docs does not support Markdown rendering.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -1488,
+        -656
+      ],
+      "id": "6ac7cb08-fb00-4ae6-ba51-97185d186618",
+      "name": "AI Agent-Content Generator"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('AI Agent-Content Generator').item.json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -848,
+        -656
+      ],
+      "id": "9abf007a-f41e-4ec2-ad69-c036d985a508",
+      "name": "Update a content in the document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "HayPCMG4TlTZ7zX3",
+          "name": "GoogleOauth-Sanket"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec",
+          "mode": "list",
+          "cachedResultName": "Zoom Dcoument Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "topic_list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10l35f-NJqZobR9F1B4zEIxP4tbHd49uE2q5qVdEg_Ec/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Topic": "={{ $('Set Fields').item.json.Topic }}",
+            "Status": "Drafted",
+            "Drafted On": "={{$now}}",
+            "DocumentLink": "=https://docs.google.com/document/d/{{ $json.documentId }}/edit"
+          },
+          "matchingColumns": [
+            "Topic"
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Audience",
+              "displayName": "Audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Drafted On",
+              "displayName": "Drafted On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DocumentLink",
+              "displayName": "DocumentLink",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reviewer",
+              "displayName": "Reviewer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reviewed On",
+              "displayName": "Reviewed On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approver",
+              "displayName": "Approver",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Approved On",
+              "displayName": "Approved On",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -592,
+        -656
+      ],
+      "id": "d5feb025-28b8-4d32-82ad-765637d1446f",
+      "name": "Update Status row in sheet-Mark \"Drafted\"",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rUW8tX6OGoA7w6oi",
+          "name": "sk_google"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "=1zL15aJ5e9Evn4-wsx6uWAW7LvqWh_Ahe",
+        "title": "=Zoom – {{ $('Set Fields').item.json.Topic }} – Draft"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        -656
+      ],
+      "id": "6436d217-964f-4515-acae-5af853aa2b5b",
+      "name": "Create a Document in the \"Drafts\" Folder",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "HayPCMG4TlTZ7zX3",
+          "name": "GoogleOauth-Sanket"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If : Check if Topic Status is \"New\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent-Content Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent-Content Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If : Check if Topic Status is \"New\"": {
+      "main": [
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent-Content Generator": {
+      "main": [
+        [
+          {
+            "node": "Create a Document in the \"Drafts\" Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a content in the document": {
+      "main": [
+        [
+          {
+            "node": "Update Status row in sheet-Mark \"Drafted\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status row in sheet-Mark \"Drafted\"": {
+      "main": [
+        []
+      ]
+    },
+    "Create a Document in the \"Drafts\" Folder": {
+      "main": [
+        [
+          {
+            "node": "Update a content in the document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0f765e64-d544-41e1-8522-a924bdd96283",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7428d0f703e00cc92dbda4395c676cdedf231821658496bbd0642f032636347a"
+  },
+  "id": "v963ra2QIS79eGIW",
+  "tags": []
+}
